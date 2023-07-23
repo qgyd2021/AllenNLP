@@ -1,0 +1,9 @@
+
+.git/
+.idea/
+
+thirdparty/
+trained_models/
+
+**/data/
+**/__pycache__/
