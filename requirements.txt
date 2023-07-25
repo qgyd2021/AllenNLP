@@ -1,2 +1,5 @@
 allennlp==2.10.1
 allennlp-models==2.10.1
+torch==1.12.1
+overrides==1.9.0
+pytorch_pretrained_bert==0.6.2

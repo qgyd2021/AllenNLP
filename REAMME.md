@@ -1,6 +1,7 @@
 ## AllenNLP
 
 ```text
+https://guide.allennlp.org/
 
 https://allenai.org/allennlp
 https://github.com/allenai/allennlp
