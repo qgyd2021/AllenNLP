@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# nohup sh run.sh --system_version centos --stage 0 --stop_stage 5 &
+# nohup sh run.sh --system_version centos --stage 3 --stop_stage 5 &
 
 # sh run.sh --system_version windows --stage -1 --stop_stage -1
 # sh run.sh --system_version windows --stage 0 --stop_stage 0
@@ -179,7 +179,7 @@ if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
 
   python3 3.make_json_config.py \
   --pretrained_model_path "${pretrained_model_dir}" \
-  --train_subset "${valid_subset}" \
+  --train_subset "${train_subset}" \
   --valid_subset "${valid_subset}" \
   --vocabulary_dir "${vocabulary_dir}" \
   --serialization_dir "${serialization_dir}" \
@@ -194,7 +194,7 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
 
   python3 4.train_model.py \
   --pretrained_model_path "${pretrained_model_dir}" \
-  --train_subset "${valid_subset}" \
+  --train_subset "${train_subset}" \
   --valid_subset "${valid_subset}" \
   --vocabulary_dir "${vocabulary_dir}" \
   --serialization_dir "${serialization_dir}" \
