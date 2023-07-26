@@ -92,7 +92,7 @@ def main():
 
     ckpt_path = os.path.join(args.serialization_dir, "best.th")
     with open(ckpt_path, 'rb') as f:
-        state_dict = torch.load(f)
+        state_dict = torch.load(f, map_location="cpu")
     model.load_state_dict(state_dict, strict=True)
     model.eval()
 
