@@ -3,7 +3,7 @@
 import argparse
 
 from allennlp.data.data_loaders.multiprocess_data_loader import MultiProcessDataLoader
-from allennlp.data.token_indexers.single_id_token_indexer import SingleIdTokenIndexer
+from allennlp.data.token_indexers.pretrained_transformer_indexer import PretrainedTransformerIndexer
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.modules.feedforward import FeedForward
 from allennlp.modules.seq2seq_encoders.pass_through_encoder import PassThroughEncoder
@@ -55,10 +55,8 @@ def main():
 
     dataset_reader = BioTaggingJsonReader(
         token_indexers={
-            'tokens': SingleIdTokenIndexer(
-                namespace='tokens',
-                lowercase_tokens=True,
-                token_min_padding_length=0,
+            'tokens': PretrainedTransformerIndexer(
+                model_name=args.pretrained_model_path,
             )
         }
     )
