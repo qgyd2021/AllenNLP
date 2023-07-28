@@ -64,7 +64,13 @@ def main():
                 "model_name": args.pretrained_model_path
             },
             "token_indexers": {
-                "tokens": {
+                "premise": {
+                    "type": "single_id",
+                    "namespace": "tokens",
+                    "lowercase_tokens": True,
+                    "token_min_padding_length": 5
+                },
+                "hypothesis": {
                     "type": "single_id",
                     "namespace": "tokens",
                     "lowercase_tokens": True,

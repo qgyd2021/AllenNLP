@@ -47,7 +47,12 @@ def main():
             model_name=args.pretrained_model_path,
         ),
         token_indexers={
-            "tokens": SingleIdTokenIndexer(
+            "premise": SingleIdTokenIndexer(
+                namespace="tokens",
+                lowercase_tokens=True,
+                token_min_padding_length=5,
+            ),
+            "hypothesis": SingleIdTokenIndexer(
                 namespace="tokens",
                 lowercase_tokens=True,
                 token_min_padding_length=5,
@@ -65,18 +70,6 @@ def main():
         oov_token="[UNK]",
         namespace="tokens",
     )
-
-    label_to_index = vocabulary.get_token_to_index_vocabulary(namespace="labels")
-    label_to_index = copy.deepcopy(label_to_index)
-    # print(label_to_index)
-
-    for label, idx in label_to_index.items():
-        if label.startswith("B-"):
-            inner_label = "I-{}".format(label[2:])
-            if inner_label not in label_to_index.keys():
-                # print(inner_label)
-                vocabulary.add_token_to_namespace(token=inner_label, namespace="labels")
-
     vocabulary.save_to_files(args.vocabulary_dir)
 
     return

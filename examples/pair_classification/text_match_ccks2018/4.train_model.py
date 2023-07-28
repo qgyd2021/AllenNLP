@@ -62,10 +62,8 @@ def main():
             model_name=args.pretrained_model_path,
         ),
         token_indexers={
-            "tokens": SingleIdTokenIndexer(
-                namespace="tokens",
-                lowercase_tokens=True,
-                token_min_padding_length=5,
+            "tokens": PretrainedTransformerIndexer(
+                model_name=args.pretrained_model_path,
             )
         }
     )
