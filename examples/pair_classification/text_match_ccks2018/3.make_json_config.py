@@ -58,13 +58,17 @@ def main():
 
     json_config = {
         "dataset_reader": {
-            "type": "bio_tagging_json",
+            "type": "pair_classification_json",
+            "tokenizer": {
+                "type": "pretrained_transformer",
+                "model_name": args.pretrained_model_path
+            },
             "token_indexers": {
                 "tokens": {
                     "type": "single_id",
                     "namespace": "tokens",
                     "lowercase_tokens": True,
-                    "token_min_padding_length": 0
+                    "token_min_padding_length": 5
                 }
             }
         },
@@ -74,31 +78,40 @@ def main():
             "directory_path": args.vocabulary_dir,
         },
         "model": {
-            "type": "crf_tagger",
+            "type": "decomposable_attention",
             "text_field_embedder": {
                 "token_embedders": {
                     "tokens": {
-                        "type": "embedding",
-                        "num_embeddings": vocabulary.get_vocab_size(namespace="tokens"),
-                        "embedding_dim": 128
+                        "type": "pretrained_transformer",
+                        "model_name": args.pretrained_model_path,
+                        "train_parameters": True
                     }
                 }
             },
-            "encoder": {
-                "type": "lstm",
-                "input_size": 128,
-                "hidden_size": 128,
+            "attend_feedforward": {
+                "input_dim": 768,
                 "num_layers": 2,
-                "bidirectional": True
+                "hidden_dims": 384,
+                "activations": "relu",
+                "dropout": 0.1
             },
-            "feedforward": {
-                "input_dim": 256,
+            "matrix_attention": {
+                "type": "dot_product"
+            },
+            "compare_feedforward": {
+                "input_dim": 1536,
                 "num_layers": 2,
-                "hidden_dims": 256,
-                "activations": "relu"
+                "hidden_dims": 768,
+                "activations": "relu",
+                "dropout": 0.1
             },
-            "label_namespace": "labels",
-            "include_start_end_transitions": True
+            "aggregate_feedforward": {
+                "input_dim": 1536,
+                "num_layers": 2,
+                "hidden_dims": [1536, vocabulary.get_vocab_size(namespace="labels")],
+                "activations": "relu",
+                "dropout": 0.1
+            }
         },
         "data_loader": {
             "type": "multiprocess",

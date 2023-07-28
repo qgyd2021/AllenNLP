@@ -54,14 +54,12 @@ data_dir="$(pwd)/data_dir"
 pretrained_models_dir="${work_dir}/../../../pretrained_models";
 trained_models_dir="${work_dir}/../../../trained_models";
 
-serialization_dir1="${data_dir}/serialization_dir1";
-serialization_dir2="${data_dir}/serialization_dir2";
+serialization_dir="${data_dir}/serialization_dir";
 
 mkdir -p "${data_dir}"
 mkdir -p "${pretrained_models_dir}"
 mkdir -p "${trained_models_dir}"
-mkdir -p "${serialization_dir1}"
-mkdir -p "${serialization_dir2}"
+mkdir -p "${serialization_dir}"
 
 vocabulary_dir="${data_dir}/vocabulary"
 train_subset="${data_dir}/train.json"
@@ -144,4 +142,32 @@ if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
 
 fi
 
+
+if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
+  $verbose && echo "stage 2: make json config"
+  cd "${work_dir}" || exit 1;
+
+  python3 3.make_json_config.py \
+  --pretrained_model_path "${pretrained_model_dir}" \
+  --train_subset "${train_subset}" \
+  --valid_subset "${valid_subset}" \
+  --vocabulary_dir "${vocabulary_dir}" \
+  --serialization_dir "${serialization_dir}" \
+  --json_config_dir "${data_dir}" \
+
+fi
+
+
+if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
+  $verbose && echo "stage 3: train model"
+  cd "${work_dir}" || exit 1;
+
+  python3 4.train_model.py \
+  --pretrained_model_path "${pretrained_model_dir}" \
+  --train_subset "${train_subset}" \
+  --valid_subset "${valid_subset}" \
+  --vocabulary_dir "${vocabulary_dir}" \
+  --serialization_dir "${serialization_dir}" \
+
+fi
 
