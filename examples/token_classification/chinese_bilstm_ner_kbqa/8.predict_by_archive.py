@@ -27,12 +27,12 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--text",
-        default="中国人民站起来了.",
+        default="叔本华信仰什么宗教？",
         type=str
     )
     parser.add_argument(
         "--archive_file",
-        default=(project_path / "trained_models/chinese_bert_ner_conll2012").as_posix(),
+        default=(project_path / "trained_models/chinese_bilstm_ner_kbqa").as_posix(),
         type=str
     )
     parser.add_argument(

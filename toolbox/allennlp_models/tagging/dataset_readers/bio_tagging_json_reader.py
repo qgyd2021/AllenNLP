@@ -33,7 +33,7 @@ class BioTaggingJsonReader(DatasetReader):
         self.label_namespace = label_namespace
 
     @overrides
-    def _read(self, file_path):
+    def _read(self, file_path) -> Iterable[Instance]:
         with open(cached_path(file_path), "r", encoding='utf-8') as data_file:
             for line in data_file.readlines():
                 if not line:

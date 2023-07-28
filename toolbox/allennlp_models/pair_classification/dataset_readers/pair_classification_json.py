@@ -16,8 +16,8 @@ from allennlp.data.tokenizers import WhitespaceTokenizer, Token
 logger = logging.getLogger(__name__)
 
 
-@DatasetReader.register("ccks2018_v3")
-class CCKS2018V3Reader(DatasetReader):
+@DatasetReader.register("pair_classification_json")
+class PairClassificationJsonReader(DatasetReader):
     def __init__(
         self,
         tokenizer: Tokenizer = None,
@@ -30,22 +30,15 @@ class CCKS2018V3Reader(DatasetReader):
         self.label_namespace = label_namespace
 
     @overrides
-    def _read(self, file_path):
-        with open(cached_path(file_path), "r", encoding='utf-8') as data_file:
-            for line in data_file.readlines():
-                if not line:
-                    continue
-                splits = line.split('\t')
-                if len(splits) == 3:
-                    sentence1, sentence2, label = splits
-                elif len(splits) == 2:
-                    sentence1, sentence2 = splits
-                    label = None
-                else:
-                    raise AssertionError
+    def _read(self, file_path: str):
+        with open(file_path, "r", encoding="utf-8") as data_file:
+            for row in data_file:
+                row = json.loads(row)
+                text1 = row["text1"]
+                text2 = row["text2"]
+                label = row["label"]
 
-                label = 'entailment' if int(label) == 1 else 'contradiction'
-                instance = self.text_to_instance(sentence1=sentence1, sentence2=sentence2, label=label)
+                instance = self.text_to_instance(sentence1=text1, sentence2=text2, label=label)
                 if instance is not None:
                     yield instance
 

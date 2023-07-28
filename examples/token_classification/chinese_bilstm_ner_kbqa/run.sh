@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-# nohup sh run.sh --system_version centos --stage 0 --stop_stage 5 &
-
+# nohup sh run.sh --system_version centos --stage -2 --stop_stage 2 &
+# sh run.sh --system_version windows --stage -2 --stop_stage -2
 # sh run.sh --system_version windows --stage -1 --stop_stage -1
-# sh run.sh --system_version windows --stage 0 --stop_stage 0
-# sh run.sh --system_version windows --stage 1 --stop_stage 1
-# sh run.sh --system_version windows --stage 2 --stop_stage 2
+# sh run.sh --system_version windows --stage 0 --stop_stage 1
+# sh run.sh --system_version windows --stage 1 --stop_stage 2
 # sh run.sh --system_version windows --stage 0 --stop_stage 3
-# sh run.sh --system_version windows --stage 4 --stop_stage 5
+# sh run.sh --system_version windows --stage 6 --stop_stage 7
 
 # params
 system_version="centos";
@@ -16,7 +15,7 @@ stage=0 # start from 0 if you need to start from data preparation
 stop_stage=5
 
 
-trained_model_name=chinese_bert_ner_conll2012
+trained_model_name=chinese_bilstm_ner_kbqa
 
 pretrained_bert_model_name=chinese-bert-wwm-ext
 
@@ -64,9 +63,14 @@ mkdir -p "${pretrained_models_dir}"
 mkdir -p "${trained_models_dir}"
 mkdir -p "${serialization_dir}"
 
+pre_train_subset="${data_dir}/kbqa-train.json"
+pre_valid_subset="${data_dir}/kbqa-valid.json"
+pre_test_subset="${data_dir}/kbqa-test.json"
+
 vocabulary_dir="${data_dir}/vocabulary"
 train_subset="${data_dir}/train.json"
 valid_subset="${data_dir}/valid.json"
+test_subset="${data_dir}/test.json"
 
 
 export PYTHONPATH="${work_dir}/../../.."
@@ -115,56 +119,60 @@ fi
 if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
   $verbose && echo "stage -1: download data"
   cd "${data_dir}" || exit 1;
-  # source1
-  # https://data.mendeley.com/datasets/zmycy7t9h9/2
 
-  wget https://prod-dcd-datasets-cache-zipfiles.s3.eu-west-1.amazonaws.com/zmycy7t9h9-2.zip
-  unzip zmycy7t9h9-2.zip
-  rm -rf zmycy7t9h9-2.zip
+  # NLPCC-KBQA
+  git clone https://github.com/nanduan/NLPCC-KBQA
 
-  mv zmycy7t9h9-2/conll-2012.zip conll-2012.zip
-  unzip conll-2012.zip
-  rm -rf conll-2012.zip
-
-  rm -rf zmycy7t9h9-2
-
-  # source2
-  # https://cemantix.org/conll/2012/data.html
-
-  # wget -c http://conll.cemantix.org/2012/download/conll-2012-train.v4.tar.gz
-  # wget -c http://conll.cemantix.org/2012/download/conll-2012-development.v4.tar.gz
-  #
-  # tar -zxvf conll-2012-train.v4.tar.gz
-  # tar -zxvf conll-2012-development.v4.tar.gz
-  #
-  # rm -rf conll-2012-train.v4.tar.gz
-  # rm -rf conll-2012-development.v4.tar.gz
+  # CCKS
+  git clone https://github.com/pkumod/CKBQA
 
 fi
 
 
 if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
-  $verbose && echo "stage 0: prepare data"
+  $verbose && echo "stage 0: preprocess data nlpcc"
   cd "${work_dir}" || exit 1;
 
-  python3 1.prepare_data.py \
-  --pretrained_model_path "${pretrained_model_dir}" \
-  --file_dir "${data_dir}/conll-2012/v4/data/train" \
-  --output_file "${train_subset}" \
-
-  python3 1.prepare_data.py \
-  --pretrained_model_path "${pretrained_model_dir}" \
-  --file_dir "${data_dir}/conll-2012/v4/data/development" \
-  --output_file "${valid_subset}" \
+  python3 1.preprocess_data_nlpcc.py \
+  --data_path "${data_dir}/NLPCC-KBQA/nlpcc2016-2018.kbqa.train" \
+  --pre_train_subset "${data_dir}/kbqa-train.json" \
 
 fi
 
 
 if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
-  $verbose && echo "stage 1: make vocabulary"
+  $verbose && echo "stage 1: preprocess data ccks"
   cd "${work_dir}" || exit 1;
 
-  python3 2.make_vocabulary.py \
+  python3 2.preprocess_data_ccks2019.py \
+  --data_path "${data_dir}/CKBQA/data/ccks2019" \
+  --pre_train_subset "${pre_train_subset}" \
+  --pre_valid_subset "${pre_valid_subset}" \
+  --pre_test_subset "${pre_test_subset}" \
+
+fi
+
+
+if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
+  $verbose && echo "stage 2: prepare data"
+  cd "${work_dir}" || exit 1;
+
+  python3 3.prepare_data.py \
+  --pretrained_model_path "${pretrained_model_dir}" \
+  --pre_train_subset "${pre_train_subset}" \
+  --pre_valid_subset "${pre_valid_subset}" \
+  --train_subset "${train_subset}" \
+  --valid_subset "${valid_subset}" \
+  --test_subset "${test_subset}" \
+
+fi
+
+
+if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
+  $verbose && echo "stage 3: make vocabulary"
+  cd "${work_dir}" || exit 1;
+
+  python3 4.make_vocabulary.py \
   --pretrained_model_path "${pretrained_model_dir}" \
   --train_subset "${valid_subset}" \
   --valid_subset "${valid_subset}" \
@@ -173,11 +181,11 @@ if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
 fi
 
 
-if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
-  $verbose && echo "stage 2: make json config"
+if [ ${stage} -le 4 ] && [ ${stop_stage} -ge 4 ]; then
+  $verbose && echo "stage 4: make json config"
   cd "${work_dir}" || exit 1;
 
-  python3 3.make_json_config.py \
+  python3 5.make_json_config.py \
   --pretrained_model_path "${pretrained_model_dir}" \
   --train_subset "${train_subset}" \
   --valid_subset "${valid_subset}" \
@@ -188,12 +196,17 @@ if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
 fi
 
 
-if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
-  $verbose && echo "stage 3: train model"
+if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
+  $verbose && echo "stage 5: train model"
+  cd "${data_dir}" || exit 1;
+  if [ ! -e weights.th ]; then
+    wget "https://huggingface.co/spaces/qgyd2021/ChineseLstmPosConll2012/resolve/main/trained_models/chinese_lstm_pos_conll2012/weights.th"
+  fi
+
   cd "${work_dir}" || exit 1;
 
-  python3 4.train_model.py \
-  --pretrained_model_path "${pretrained_model_dir}" \
+  python3 6.train_model.py \
+  --pretrained_pos_model_path "${data_dir}/weights.th" \
   --train_subset "${train_subset}" \
   --valid_subset "${valid_subset}" \
   --vocabulary_dir "${vocabulary_dir}" \
@@ -202,8 +215,8 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
 fi
 
 
-if [ ${stage} -le 4 ] && [ ${stop_stage} -ge 4 ]; then
-  $verbose && echo "stage 4: collect files"
+if [ ${stage} -le 6 ] && [ ${stop_stage} -ge 6 ]; then
+  $verbose && echo "stage 6: collect files"
   cd "${work_dir}" || exit 1;
 
   mkdir -p "${trained_models_dir}/${trained_model_name}"
@@ -215,11 +228,11 @@ if [ ${stage} -le 4 ] && [ ${stop_stage} -ge 4 ]; then
 fi
 
 
-if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
-  $verbose && echo "stage 5: predict by archive"
+if [ ${stage} -le 7 ] && [ ${stop_stage} -ge 7 ]; then
+  $verbose && echo "stage 8: predict by archive"
   cd "${work_dir}" || exit 1;
 
-  python3 6.predict_by_archive.py \
+  python3 8.predict_by_archive.py \
   --archive_file "${trained_models_dir}/${trained_model_name}" \
   --pretrained_model_path "${pretrained_model_dir}" \
 
