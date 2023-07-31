@@ -64,18 +64,10 @@ def main():
                 "model_name": args.pretrained_model_path
             },
             "token_indexers": {
-                "premise": {
-                    "type": "single_id",
-                    "namespace": "tokens",
-                    "lowercase_tokens": True,
-                    "token_min_padding_length": 5
+                "tokens": {
+                    "type": "pretrained_transformer",
+                    "model_name": args.pretrained_model_path
                 },
-                "hypothesis": {
-                    "type": "single_id",
-                    "namespace": "tokens",
-                    "lowercase_tokens": True,
-                    "token_min_padding_length": 5
-                }
             }
         },
         "train_data_path": args.train_subset,

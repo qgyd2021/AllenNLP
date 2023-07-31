@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 # nohup sh run.sh --system_version centos --stage -2 --stop_stage 3 &
+# sh run.sh --system_version centos --stage 2 --stop_stage 2
 
 # sh run.sh --system_version windows --stage -2 --stop_stage -1
 # sh run.sh --system_version windows --stage 0 --stop_stage 1
 # sh run.sh --system_version windows --stage 1 --stop_stage 1
 # sh run.sh --system_version windows --stage 2 --stop_stage 2
 # sh run.sh --system_version windows --stage 0 --stop_stage 5
-# sh run.sh --system_version windows --stage 6 --stop_stage 6
+# sh run.sh --system_version windows --stage 4 --stop_stage 5
 
 # params
 system_version="centos";
@@ -171,3 +172,26 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
 
 fi
 
+
+if [ ${stage} -le 4 ] && [ ${stop_stage} -ge 4 ]; then
+  $verbose && echo "stage 4: collect files"
+  cd "${work_dir}" || exit 1;
+
+  mkdir -p "${trained_models_dir}/${trained_model_name}"
+
+  cp -r "${vocabulary_dir}" "${trained_models_dir}/${trained_model_name}/vocabulary/"
+  cp "${serialization_dir}/best.th" "${trained_models_dir}/${trained_model_name}/weights.th"
+  cp "${data_dir}/config.json" "${trained_models_dir}/${trained_model_name}/config.json"
+
+fi
+
+
+if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
+  $verbose && echo "stage 5: predict by archive"
+  cd "${work_dir}" || exit 1;
+
+  python3 6.predict_by_archive.py \
+  --archive_file "${trained_models_dir}/${trained_model_name}" \
+  --pretrained_model_path "${pretrained_model_dir}" \
+
+fi

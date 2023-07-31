@@ -1,25 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import argparse
+import os
 import time
 
 from allennlp.data.data_loaders.multiprocess_data_loader import MultiProcessDataLoader
 from allennlp.data.token_indexers.pretrained_transformer_indexer import PretrainedTransformerIndexer
 from allennlp.data.tokenizers.pretrained_transformer_tokenizer import PretrainedTransformerTokenizer
 from allennlp.modules.token_embedders.pretrained_transformer_embedder import PretrainedTransformerEmbedder
-from allennlp.data.token_indexers.single_id_token_indexer import SingleIdTokenIndexer
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.modules import FeedForward
 from allennlp.modules.matrix_attention import DotProductMatrixAttention
 from allennlp.modules.text_field_embedders.basic_text_field_embedder import BasicTextFieldEmbedder
-from allennlp.modules.token_embedders.embedding import Embedding
-from allennlp.modules.seq2seq_encoders.pytorch_transformer_wrapper import PytorchTransformer
-from allennlp.training.checkpointer import Checkpointer
-from allennlp.training.gradient_descent_trainer import GradientDescentTrainer
 from allennlp_models.pair_classification.models.decomposable_attention import DecomposableAttention
-from pytorch_pretrained_bert.optimization import BertAdam
-
-from allennlp.predictors.predictor import Predictor
 from allennlp_models.pair_classification.predictors.textual_entailment import TextualEntailmentPredictor
 
 import torch
@@ -67,10 +60,8 @@ def main():
             model_name=args.pretrained_model_path,
         ),
         token_indexers={
-            "tokens": SingleIdTokenIndexer(
-                namespace="tokens",
-                lowercase_tokens=True,
-                token_min_padding_length=5,
+            "tokens": PretrainedTransformerIndexer(
+                model_name=args.pretrained_model_path,
             )
         }
     )
@@ -127,6 +118,12 @@ def main():
         ),
     )
 
+    checkpoint_path = os.path.join(args.serialization_dir, "best.th")
+    with open(checkpoint_path, 'rb') as f:
+        state_dict = torch.load(f, map_location="cpu")
+    model.load_state_dict(state_dict, strict=True)
+    model.eval()
+
     predictor = TextualEntailmentPredictor(
         model=model,
         dataset_reader=dataset_reader,
@@ -146,7 +143,8 @@ def main():
         outputs = predictor.predict_json(
             json_dict
         )
-        print(outputs)
+        label = outputs["label"]
+        print(label)
 
         print('time cost: {}'.format(time.time() - begin_time))
     return

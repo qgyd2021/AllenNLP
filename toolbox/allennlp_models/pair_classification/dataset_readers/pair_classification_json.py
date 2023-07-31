@@ -30,7 +30,7 @@ class PairClassificationJsonReader(DatasetReader):
         self.label_namespace = label_namespace
 
     @overrides
-    def _read(self, file_path: str):
+    def _read(self, file_path: str) -> Iterable[Instance]:
         with open(file_path, "r", encoding="utf-8") as data_file:
             for row in data_file:
                 row = json.loads(row)
