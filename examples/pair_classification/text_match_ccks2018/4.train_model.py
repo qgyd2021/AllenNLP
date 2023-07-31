@@ -124,9 +124,9 @@ def main():
 
     optimizer = BertAdam(
         params=parameters,
-        lr=5e-4,
+        lr=5e-5,
         warmup=0.1,
-        t_total=60000,
+        t_total=100000,
         # t_total=200000,
         schedule='warmup_linear'
     )

@@ -123,7 +123,7 @@ def main():
                 "type": "bert_adam",
                 "lr": 5e-5,
                 "warmup": 0.1,
-                "t_total": 50000,
+                "t_total": 100000,
                 "schedule": "warmup_linear"
             },
             "checkpointer": {
