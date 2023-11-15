@@ -88,7 +88,7 @@ def main():
             },
             "attend_feedforward": {
                 "input_dim": 768,
-                "num_layers": 1,
+                "num_layers": 2,
                 "hidden_dims": 384,
                 "activations": "relu",
                 "dropout": 0.1
@@ -98,15 +98,15 @@ def main():
             },
             "compare_feedforward": {
                 "input_dim": 1536,
-                "num_layers": 1,
+                "num_layers": 2,
                 "hidden_dims": 768,
                 "activations": "relu",
                 "dropout": 0.1
             },
             "aggregate_feedforward": {
                 "input_dim": 1536,
-                "num_layers": 1,
-                "hidden_dims": [vocabulary.get_vocab_size(namespace="labels")],
+                "num_layers": 2,
+                "hidden_dims": [768, vocabulary.get_vocab_size(namespace="labels")],
                 "activations": "relu",
                 "dropout": 0.1
             }

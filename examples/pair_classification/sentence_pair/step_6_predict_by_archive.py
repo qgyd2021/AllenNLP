@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""
+https://huggingface.co/allenai/bidaf-elmo
+https://huggingface.co/docs/hub/allennlp
+
+"""
 import argparse
 import time
 

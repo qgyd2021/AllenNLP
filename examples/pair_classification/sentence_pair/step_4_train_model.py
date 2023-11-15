@@ -98,7 +98,7 @@ def main():
         ),
         attend_feedforward=FeedForward(
             input_dim=768,
-            num_layers=1,
+            num_layers=2,
             hidden_dims=384,
             activations=torch.nn.ReLU(),
             dropout=0.1,
@@ -107,15 +107,15 @@ def main():
         # 384*4=1536
         compare_feedforward=FeedForward(
             input_dim=1536,
-            num_layers=1,
+            num_layers=2,
             hidden_dims=768,
             activations=torch.nn.ReLU(),
             dropout=0.1,
         ),
         aggregate_feedforward=FeedForward(
             input_dim=1536,
-            num_layers=1,
-            hidden_dims=[2],
+            num_layers=2,
+            hidden_dims=[768, 2],
             activations=torch.nn.ReLU(),
             dropout=0.1,
         ),
