@@ -114,7 +114,7 @@ def main():
         aggregate_feedforward=FeedForward(
             input_dim=1536,
             num_layers=1,
-            hidden_dims=[1536, 2],
+            hidden_dims=[2],
             activations=torch.nn.ReLU(),
             dropout=0.1,
         ),

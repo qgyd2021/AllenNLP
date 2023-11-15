@@ -106,7 +106,7 @@ def main():
             "aggregate_feedforward": {
                 "input_dim": 1536,
                 "num_layers": 1,
-                "hidden_dims": [1536, vocabulary.get_vocab_size(namespace="labels")],
+                "hidden_dims": [vocabulary.get_vocab_size(namespace="labels")],
                 "activations": "relu",
                 "dropout": 0.1
             }
