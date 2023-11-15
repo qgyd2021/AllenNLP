@@ -104,6 +104,7 @@ def main():
             dropout=0.1,
         ),
         matrix_attention=DotProductMatrixAttention(),
+        # 384*4=1536
         compare_feedforward=FeedForward(
             input_dim=1536,
             num_layers=1,
@@ -127,7 +128,7 @@ def main():
         lr=5e-5,
         warmup=0.1,
         # t_total=100000,
-        t_total=200000,
+        t_total=400000,
         schedule='warmup_linear'
     )
 
@@ -152,7 +153,7 @@ def main():
         validation_data_loader=validation_data_loader,
         patience=5,
         validation_metric='+accuracy',
-        num_epochs=20,
+        num_epochs=40,
         serialization_dir=args.serialization_dir,
     )
     trainer.train()
