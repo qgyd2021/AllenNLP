@@ -149,6 +149,8 @@ def main():
             serialization_dir=args.serialization_dir,
             keep_most_recent_by_count=10,
         ),
+        grad_norm=True,
+        grad_clipping=1.0,
         data_loader=data_loader,
         validation_data_loader=validation_data_loader,
         patience=5,
