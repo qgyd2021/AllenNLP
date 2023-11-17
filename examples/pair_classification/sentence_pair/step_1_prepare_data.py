@@ -4,6 +4,7 @@
 https://huggingface.co/datasets/qgyd2021/sentence_pair
 """
 import argparse
+from collections import defaultdict
 import json
 import os
 from pathlib import Path
@@ -55,8 +56,8 @@ def main():
     train_f = open(args.train_subset, "w", encoding="utf-8")
     valid_f = open(args.valid_subset, "w", encoding="utf-8")
 
-    train_names = ["diac2019", "afqmc", "ccks2018_task3", "chinese_sts", "chip2019", "covid_19", "lcqmc", "pawsx_zh", "sts_b"]
-    valid_names = ["diac2019", "afqmc", "ccks2018_task3", "chinese_sts", "covid_19", "lcqmc", "pawsx_zh", "sts_b"]
+    train_names = ["afqmc", "ccks2018_task3", "chip2019", "lcqmc"]
+    valid_names = ["afqmc", "ccks2018_task3", "lcqmc"]
 
     for subset in tqdm(train_names):
         dataset_dict = load_dataset(
@@ -77,6 +78,7 @@ def main():
                 "text1": sample["sentence1"],
                 "text2": sample["sentence2"],
                 "label": sample["label"],
+                "data_source": sample["data_source"],
             }
             row = json.dumps(row, ensure_ascii=False)
             train_f.write("{}\n".format(row))
@@ -100,14 +102,65 @@ def main():
                 "text1": sample["sentence1"],
                 "text2": sample["sentence2"],
                 "label": sample["label"],
+                "data_source": sample["data_source"],
+
             }
             row = json.dumps(row, ensure_ascii=False)
             valid_f.write("{}\n".format(row))
 
     train_f.close()
     valid_f.close()
+
+    return
+
+
+def main2():
+    args = get_args()
+
+    # train
+    statistics = defaultdict(lambda: defaultdict(int))
+    with open(args.train_subset, "r", encoding="utf-8") as f:
+        for row in f:
+            row = json.loads(row)
+            data_source = row["data_source"]
+            label = row["label"]
+            statistics[data_source][label] += 1
+
+    total = defaultdict(int)
+    for k1, v1 in statistics.items():
+        print("{}:".format(k1))
+        for k2, v2 in v1.items():
+            print("    {}: {}".format(k2, v2))
+            total[k2] += v2
+
+    print("total: ")
+    for k, v in total.items():
+        print("    {}: {}".format(k, v))
+
+    print("-" * 50)
+    # valid
+    statistics = defaultdict(lambda: defaultdict(int))
+    with open(args.valid_subset, "r", encoding="utf-8") as f:
+        for row in f:
+            row = json.loads(row)
+            data_source = row["data_source"]
+            label = row["label"]
+            statistics[data_source][label] += 1
+
+    total = defaultdict(int)
+    for k1, v1 in statistics.items():
+        print("{}:".format(k1))
+        for k2, v2 in v1.items():
+            print("    {}: {}".format(k2, v2))
+            total[k2] += v2
+
+    print("total: ")
+    for k, v in total.items():
+        print("    {}: {}".format(k, v))
+
     return
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    main2()
