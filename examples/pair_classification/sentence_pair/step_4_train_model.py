@@ -50,6 +50,9 @@ def get_args():
         default="data_dir/serialization_dir",
         type=str
     )
+
+    parser.add_argument("--num_epochs", default=40, type=int)
+
     args = parser.parse_args()
     return args
 
@@ -125,10 +128,9 @@ def main():
 
     optimizer = BertAdam(
         params=parameters,
-        lr=2e-4,
+        lr=1e-4,
         warmup=0.1,
-        # t_total=100000,
-        t_total=400000,
+        t_total=len(data_loader) * args.num_epochs,
         schedule='warmup_linear'
     )
 
@@ -155,7 +157,7 @@ def main():
         validation_data_loader=validation_data_loader,
         patience=5,
         validation_metric='+accuracy',
-        num_epochs=40,
+        num_epochs=args.num_epochs,
         serialization_dir=args.serialization_dir,
     )
     trainer.train()

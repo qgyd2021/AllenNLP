@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # nohup sh run.sh --system_version centos --stage 0 --stop_stage 3 &
-# nohup sh run.sh --system_version centos --stage 2 --stop_stage 3 &
+# nohup sh run.sh --system_version centos --stage 3 --stop_stage 3 &
 
 # sh run.sh --system_version centos --stage 2 --stop_stage 2
 
