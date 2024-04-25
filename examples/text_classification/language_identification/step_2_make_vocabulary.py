@@ -68,6 +68,12 @@ def main():
     valid_dataset = dataset_reader.read(args.valid_subset)
 
     vocabulary = Vocabulary.from_instances(chain(train_dataset, valid_dataset))
+    vocabulary.set_from_file(
+        filename=os.path.join(args.pretrained_model_path, "vocab.txt"),
+        is_padded=False,
+        oov_token="[UNK]",
+        namespace="tokens",
+    )
     vocabulary.save_to_files(args.vocabulary_dir)
 
     return
