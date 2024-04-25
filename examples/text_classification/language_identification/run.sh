@@ -16,7 +16,7 @@ verbose=true;
 stage=0 # start from 0 if you need to start from data preparation
 stop_stage=5
 
-pretrained_model_supplier=
+pretrained_model_supplier=google-bert
 pretrained_model_name=bert-base-multilingual-cased
 
 trained_model_name=language_identification_20240425
