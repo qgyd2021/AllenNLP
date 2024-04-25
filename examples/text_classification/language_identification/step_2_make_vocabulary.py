@@ -5,6 +5,10 @@ import copy
 from itertools import chain
 import os
 from pathlib import Path
+import sys
+
+pwd = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(os.path.join(pwd, "../../../"))
 
 from allennlp.data.tokenizers.pretrained_transformer_tokenizer import PretrainedTransformerTokenizer
 from allennlp.data.token_indexers.single_id_token_indexer import SingleIdTokenIndexer

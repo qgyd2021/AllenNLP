@@ -4,7 +4,11 @@ import argparse
 import json
 import os
 from pathlib import Path
+import sys
 import time
+
+pwd = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(os.path.join(pwd, "../../../"))
 
 from allennlp.models.archival import archive_model, load_archive
 from allennlp.predictors.text_classifier import TextClassifierPredictor

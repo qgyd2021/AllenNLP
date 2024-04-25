@@ -3,6 +3,10 @@
 import argparse
 import os
 import time
+import sys
+
+pwd = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(os.path.join(pwd, "../../../"))
 
 from allennlp.data.tokenizers.pretrained_transformer_tokenizer import PretrainedTransformerTokenizer
 from allennlp.models.archival import archive_model, load_archive
