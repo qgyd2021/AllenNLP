@@ -26,11 +26,6 @@ from project_settings import project_path
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--text",
-        default="叔本华信仰什么宗教？",
-        type=str
-    )
-    parser.add_argument(
         "--archive_file",
         default=(project_path / "trained_models/language_identification").as_posix(),
         type=str

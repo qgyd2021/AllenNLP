@@ -7,6 +7,7 @@
 
 # nohup sh run.sh --system_version centos --stage 0 --stop_stage 3 &
 # nohup sh run.sh --system_version centos --stage 3 --stop_stage 3 &
+# sh run.sh --system_version centos --stage 4 --stop_stage 4 --trained_model_name language_identification_20240425
 
 # sh run.sh --system_version centos --stage 2 --stop_stage 2
 
@@ -19,7 +20,7 @@ stop_stage=5
 pretrained_model_supplier=google-bert
 pretrained_model_name=bert-base-multilingual-cased
 
-trained_model_name=language_identification_20240425
+trained_model_name=language_identification
 
 # parse options
 while true; do
@@ -57,7 +58,7 @@ data_dir="$(pwd)/data_dir"
 serialization_dir="${data_dir}/serialization_dir"
 
 pretrained_models_dir="${work_dir}/../../../pretrained_models/huggingface/${pretrained_model_supplier}"
-trained_models_dir="${work_dir}/../../../trained_models/${trained_model_name}"
+trained_models_dir="${work_dir}/../../../trained_models/"
 
 
 mkdir -p "${data_dir}"
@@ -152,19 +153,19 @@ if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
   $verbose && echo "stage 5: predict by archive"
   cd "${work_dir}" || exit 1;
 
-  python3 step_4_predict_by_archive.py \
+  python3 step_4_evaluation.py \
   --archive_file "${trained_models_dir}/${trained_model_name}" \
-  --pretrained_model_name_or_path "${pretrained_models_dir}/${pretrained_model_name}" \
+  --train_subset "${train_subset}" \
+  --valid_subset "${valid_subset}" \
 
 fi
 
 
 if [ ${stage} -le 6 ] && [ ${stop_stage} -ge 6 ]; then
-  $verbose && echo "stage 5: predict by archive"
+  $verbose && echo "stage 6: predict by archive"
   cd "${work_dir}" || exit 1;
 
-  python3 step_4_predict_by_archive.py \
+  python3 step_5_predict_by_archive.py \
   --archive_file "${trained_models_dir}/${trained_model_name}" \
-  --pretrained_model_name_or_path "${pretrained_models_dir}/${pretrained_model_name}" \
 
 fi
