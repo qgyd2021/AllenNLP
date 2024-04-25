@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# sh run.sh --system_version windows --stage 0 --stop_stage 2
+# sh run.sh --system_version windows --stage 2 --stop_stage 2
 # sh run.sh --system_version windows --stage 3 --stop_stage 3
 # sh run.sh --system_version windows --stage 4 --stop_stage 4
 # sh run.sh --system_version windows --stage 5 --stop_stage 5
