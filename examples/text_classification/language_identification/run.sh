@@ -61,8 +61,9 @@ trained_models_dir="${work_dir}/../../../trained_models/${trained_model_name}"
 
 
 mkdir -p "${data_dir}"
-mkdir -p "${trained_models_dir}"
 mkdir -p "${serialization_dir}"
+mkdir -p "${pretrained_models_dir}"
+mkdir -p "${trained_models_dir}"
 
 vocabulary_dir="${data_dir}/vocabulary"
 train_subset="${data_dir}/train.jsonl"
