@@ -61,6 +61,7 @@ def main():
         tokenizer=PretrainedTransformerTokenizer(
             model_name=args.pretrained_model_path,
         ),
+        max_sequence_length=256,
     )
 
     train_dataset = dataset_reader.read(args.train_subset)

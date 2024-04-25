@@ -78,6 +78,7 @@ def main():
         tokenizer=PretrainedTransformerTokenizer(
             model_name=args.pretrained_model_path,
         ),
+        max_sequence_length=256,
     )
 
     vocabulary = Vocabulary.from_files(args.vocabulary_dir)
@@ -116,7 +117,7 @@ def main():
             dropout_prob=0.3,
         ),
         seq2vec_encoder=CnnEncoder(
-            embedding_dim=128,
+            embedding_dim=64,
             num_filters=64,
             ngram_filter_sizes=(1, 2, 3, 4, 5),
             output_dim=64,
