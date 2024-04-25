@@ -26,7 +26,7 @@
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
-                    "num_embeddings": 70969,
+                    "num_embeddings": 119548,
                     "embedding_dim": 64
                 }
             }
@@ -51,7 +51,6 @@
         "type": "multiprocess",
         "batch_size": 64,
         "shuffle": true,
-        "max_instances_in_memory": 320
     },
     "trainer": {
         "type": "gradient_descent",
