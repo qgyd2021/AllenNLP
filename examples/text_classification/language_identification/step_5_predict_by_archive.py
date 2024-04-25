@@ -18,6 +18,10 @@ from project_settings import project_path
 
 
 def get_args():
+    """
+    python3 step_5_predict_by_archive.py
+    :return:
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--text",

@@ -37,7 +37,7 @@
             "num_layers": 4,
             "feedforward_hidden_dim": 128,
             "num_attention_heads": 4,
-            "dropout": 0.3
+            "dropout_prob": 0.3
         },
         "seq2vec_encoder": {
             "type": "cnn",
