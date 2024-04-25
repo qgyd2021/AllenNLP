@@ -88,6 +88,7 @@ def main():
         data_path=args.train_subset,
         batch_size=64,
         shuffle=True,
+        max_instances_in_memory=64 * 5
     )
     data_loader.index_with(vocabulary)
 
@@ -96,6 +97,7 @@ def main():
         data_path=args.valid_subset,
         batch_size=64,
         shuffle=True,
+        max_instances_in_memory=64 * 5
     )
     validation_data_loader.index_with(vocabulary)
 

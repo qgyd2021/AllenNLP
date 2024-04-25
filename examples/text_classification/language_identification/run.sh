@@ -157,3 +157,14 @@ if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
   --pretrained_model_name_or_path "${pretrained_models_dir}/${pretrained_model_name}" \
 
 fi
+
+
+if [ ${stage} -le 6 ] && [ ${stop_stage} -ge 6 ]; then
+  $verbose && echo "stage 5: predict by archive"
+  cd "${work_dir}" || exit 1;
+
+  python3 step_4_predict_by_archive.py \
+  --archive_file "${trained_models_dir}/${trained_model_name}" \
+  --pretrained_model_name_or_path "${pretrained_models_dir}/${pretrained_model_name}" \
+
+fi
