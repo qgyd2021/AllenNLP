@@ -22,4 +22,5 @@ trained_models/
 **/vocabulary/
 **/__pycache__/
 
+**/*.jsonl
 **/*.zip

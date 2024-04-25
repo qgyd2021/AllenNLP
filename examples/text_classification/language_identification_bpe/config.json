@@ -1,0 +1,67 @@
+{
+    "dataset_reader": {
+        "type": "text_classification_json_utf8",
+        "token_indexers": {
+            "tokens": {
+                "type": "single_id",
+                "namespace": "tokens",
+                "lowercase_tokens": true,
+                "token_min_padding_length": 5
+            }
+        },
+        "tokenizer": {
+            "type": "sentence_piece_bpe_tokenizer",
+            "bpe_tokenizer_file": "E:/Users/tianx/PycharmProjects/AllenNLP/trained_models/language_identification_bpe/bpe_tokenizer.model"
+        }
+    },
+    "train_data_path": "train.json",
+    "validation_data_path": "valid.json",
+    "vocabulary": {
+        "directory_path": "vocabulary"
+    },
+    "model": {
+        "type": "basic_classifier",
+        "text_field_embedder": {
+            "token_embedders": {
+                "tokens": {
+                    "type": "embedding",
+                    "num_embeddings": 46205,
+                    "embedding_dim": 64
+                }
+            }
+        },
+        "seq2seq_encoder": {
+            "type": "gated-cnn-encoder",
+            "input_dim": 64,
+            "layers": [[[4, 64]], [[4, 64], [4, 64]], [[4, 64]]],
+            "dropout": 0.05
+        },
+        "seq2vec_encoder": {
+            "type": "cnn",
+            "embedding_dim": 128,
+            "num_filters": 64,
+            "ngram_filter_sizes": [2, 3, 4, 5],
+            "output_dim": 64
+        }
+    },
+    "data_loader": {
+        "type": "multiprocess",
+        "batch_size": 64,
+        "shuffle": true
+    },
+    "trainer": {
+        "type": "gradient_descent",
+        "cuda_device": -1,
+        "optimizer": {
+            "type": "adam",
+            "lr": 1e-4
+        },
+        "checkpointer": {
+            "serialization_dir": "serialization_dir",
+            "keep_most_recent_by_count": 10
+        },
+        "patience": 5,
+        "validation_metric": "+accuracy",
+        "num_epochs": 100
+    }
+}
