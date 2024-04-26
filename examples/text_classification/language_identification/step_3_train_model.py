@@ -18,6 +18,7 @@ from allennlp.models.basic_classifier import BasicClassifier
 from allennlp.modules.text_field_embedders.basic_text_field_embedder import BasicTextFieldEmbedder
 from allennlp.modules.seq2seq_encoders.gated_cnn_encoder import GatedCnnEncoder
 from allennlp.modules.seq2seq_encoders.pytorch_transformer_wrapper import PytorchTransformer
+from allennlp.modules.seq2seq_encoders.pass_through_encoder import PassThroughEncoder
 from allennlp.modules.seq2vec_encoders.cnn_encoder import CnnEncoder
 from allennlp.modules.seq2vec_encoders.boe_encoder import BagOfEmbeddingsEncoder
 from allennlp.modules.token_embedders.embedding import Embedding
@@ -112,12 +113,15 @@ def main():
                 ),
             }
         ),
-        seq2seq_encoder=PytorchTransformer(
-            input_dim=64,
-            num_layers=4,
-            feedforward_hidden_dim=128,
-            num_attention_heads=4,
-            dropout_prob=0.5,
+        # seq2seq_encoder=PytorchTransformer(
+        #     input_dim=64,
+        #     num_layers=4,
+        #     feedforward_hidden_dim=128,
+        #     num_attention_heads=4,
+        #     dropout_prob=0.5,
+        # ),
+        seq2seq_encoder=PassThroughEncoder(
+            input_dim=64
         ),
         seq2vec_encoder=BagOfEmbeddingsEncoder(
             embedding_dim=64,

@@ -6,8 +6,8 @@
 # sh run.sh --system_version windows --stage 5 --stop_stage 5
 
 # nohup sh run.sh --system_version centos --stage 0 --stop_stage 3 &
-# nohup sh run.sh --system_version centos --stage 2 --stop_stage 3 &
-# sh run.sh --system_version centos --stage 4 --stop_stage 4 --trained_model_name language_identification_20240425
+# nohup sh run.sh --system_version centos --stage 3 --stop_stage 3 &
+# sh run.sh --system_version centos --stage 4 --stop_stage 4 --trained_model_name language_identification
 
 # sh run.sh --system_version centos --stage 2 --stop_stage 2
 
