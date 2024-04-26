@@ -40,17 +40,15 @@
             "dropout_prob": 0.3
         },
         "seq2vec_encoder": {
-            "type": "cnn",
+            "type": "bag_of_embeddings",
             "embedding_dim": 64,
-            "num_filters": 64,
-            "ngram_filter_sizes": [1, 2, 3, 4, 5],
-            "output_dim": 64
+            "averaged": true
         }
     },
     "data_loader": {
         "type": "multiprocess",
         "batch_size": 64,
-        "shuffle": true,
+        "shuffle": true
     },
     "trainer": {
         "type": "gradient_descent",
