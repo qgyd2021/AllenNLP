@@ -7,7 +7,7 @@ import random
 import sys
 
 pwd = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(os.path.join(pwd, "../../../"))
+sys.path.append(os.path.join(pwd, "../../"))
 
 from datasets import load_dataset, DownloadMode
 
@@ -36,57 +36,59 @@ def get_args():
 
 
 s = """
-|   ar   |     arabic     |  10000   |     iwslt2017    |
-|   bg   |   bulgarian    |  10000   |       xnli       |
-|   bn   |    bengali     |  10000   |  open_subtitles  |
-|   bs   |    bosnian     |  10000   |  open_subtitles  |
-|   cs   |     czech      |  10000   |       ecb        |
-|   da   |     danish     |  10000   |  open_subtitles  |
-|   de   |     german     |  10000   |       ecb        |
-|   el   |  modern greek  |  10000   |       ecb        |
-|   en   |    english     |  10000   |       ecb        |
-|   eo   |   esperanto    |  10000   |     tatoeba      |
-|   es   |    spanish     |  10000   |     tatoeba      |
-|   et   |    estonian    |  10000   |      emea        |
-|   fi   |    finnish     |  10000   |       ecb        |
-|   fo   |    faroese     |  10000   |  nordic_langid   |
-|   fr   |    french      |  10000   |     iwslt2017    |
-|   ga   |    irish       |  10000   | multi_para_crawl |
-|   gl   |    galician    |  3096    |     tatoeba      |
-|   hi   |     hindi      |  10000   |  open_subtitles  |
-|  hi_en |     hindi      |  7180    | cmu_hinglish_dog |
-|   hr   |    croatian    |  10000   |   hrenwac_para   |
-|   hu   |    hungarian   |  3801    |   europa_ecdc_tm; europa_eac_tm   |
-|   hy   |    armenian    |   660    |  open_subtitles  |
-|   id   |   indonesian   |  10000   |   id_panl_bppt   |
-|   is   |   icelandic    |  2973    |   europa_ecdc_tm; europa_eac_tm   |
-|   it   |    italian     |  10000   |     iwslt2017    |
-|   ja   |    japanese    |  10000   |     iwslt2017    |
-|   ko   |    korean      |  10000   |     iwslt2017    |
-|   lt   |   lithuanian   |  10000   |       emea       |
-|   lv   |    latvian     |  4595    |   europa_ecdc_tm; europa_eac_tm   |
-|   mr   |    marathi     |  10000   |     tatoeba      |
-|   mt   |    maltese     |  10000   | multi_para_crawl |
-|   nl   |    dutch       |  10000   |       kde4       |
-|   no   |   norwegian    |  10000   | multi_para_crawl |
-|   pl   |    polish      |  10000   |       ecb        |
-|   pt   |   portuguese   |  10000   |     tatoeba      |
-|   ro   |    romanian    |  10000   |       kde4       |
-|   ru   |    russian     |  10000   |       xnli       |
-|   sk   |    slovak      |  10000   | multi_para_crawl |
-|   sl   |   slovenian    |  4589    |   europa_ecdc_tm; europa_eac_tm   |
-|   sw   |    swahili     |  10000   |       xnli       |
-|   sv   |    swedish     |  10000   |       kde4       |
-|   th   |     thai       |  10000   |       xnli       |
-|   tl   |    tagalog     |  10000   | multi_para_crawl |
-|   tn   |    serpeti     |  10000   |   autshumato     |
-|   tr   |    turkish     |  10000   |       xnli       |
-|   ts   |    dzonga      |  10000   |    autshumato    |
-|   ur   |     urdu       |  10000   |       xnli       |
-|   vi   |   vietnamese   |  10000   |       xnli       |
-|   yo   |     yoruba     |  9970    |    menyo20k_mt   |
-|   zh   |    chinese     |  10000   |       xnli       |
-|   zu   |  zulu, south africa  |  10000   |    autshumato    |
+|   af   |    afrikaans   |   35214   |       spc        |
+|   ar   |     arabic     |  100000   |     iwslt2017    |
+|   bg   |   bulgarian    |  100000   |       xnli       |
+|   bn   |    bengali     |  36064    |  open_subtitles  |
+|   bs   |    bosnian     |  10212    |  open_subtitles  |
+|   cs   |     czech      |  100000   |       emea       |
+|   da   |     danish     |  100000   |  open_subtitles  |
+|   de   |     german     |  100000   |     iwslt2017    |
+|   el   |  modern greek  |  100000   |       emea       |
+|   en   |    english     |  200000   |     iwslt2017    |
+|   eo   |   esperanto    |  94101    | tatoeba; open_subtitles |
+|   es   |    spanish     |  100000   |       xnli       |
+|   et   |    estonian    |  100000   |       emea       |
+|   fi   |    finnish     |  100000   |    ecb; kde4     |
+|   fo   |    faroese     |  23807    |  nordic_langid   |
+|   fr   |    french      |  100000   |     iwslt2017    |
+|   ga   |    irish       |  100000   | multi_para_crawl |
+|   gl   |    galician    |  3096     |     tatoeba      |
+|   hi   |     hindi      |  100000   |       xnli       |
+|  hi_en |     hindi      |  7180     | cmu_hinglish_dog |
+|   hr   |    croatian    |  95844    |   hrenwac_para   |
+|   hu   |    hungarian   |  3801     |   europa_ecdc_tm; europa_eac_tm   |
+|   hy   |    armenian    |   660     |  open_subtitles  |
+|   id   |   indonesian   |  23940    |   id_panl_bppt   |
+|   is   |   icelandic    |  100000   | multi_para_crawl |
+|   it   |    italian     |  100000   |     iwslt2017    |
+|   ja   |    japanese    |  100000   |     iwslt2017    |
+|   ko   |    korean      |  100000   |     iwslt2017    |
+|   lt   |   lithuanian   |  100000   |       emea       |
+|   lv   |    latvian     |  100000   | multi_para_crawl |
+|   mr   |    marathi     |  51807    |     tatoeba      |
+|   mt   |    maltese     |  100000   | multi_para_crawl |
+|   nl   |    dutch       |  100000   |       kde4       |
+|   no   |   norwegian    |  100000   | multi_para_crawl |
+|   pl   |    polish      |  100000   | para_crawl_en_pl |
+|   pt   |   portuguese   |  100000   | para_crawl_en_pt |
+|   ro   |    romanian    |  100000   |     iwslt2017    |
+|   ru   |    russian     |  100000   |       xnli       |
+|   sk   |    slovak      |  100000   | multi_para_crawl |
+|   sl   |   slovenian    |  100000   | para_crawl_en_sl |
+|   sw   |    swahili     |  100000   |       xnli       |
+|   sv   |    swedish     |  100000   |       kde4       |
+|   th   |     thai       |  100000   |       xnli       |
+|   tl   |    tagalog     |  97241    | multi_para_crawl |
+|   tn   |    serpeti     |  100000   |   autshumato     |
+|   tr   |    turkish     |  100000   |       xnli       |
+|   ts   |    dzonga      |  100000   |    autshumato    |
+|   uk   |    ukrainian   |  88533    |  para_pat_en_uk  |
+|   ur   |     urdu       |  100000   |       xnli       |
+|   vi   |   vietnamese   |  100000   |       xnli       |
+|   yo   |     yoruba     |   9970    |    menyo20k_mt   |
+|   zh   |    chinese     |  200000   |       xnli       |
+|   zu   |  zulu, south africa  |  26801   |    autshumato    |
 """
 
 

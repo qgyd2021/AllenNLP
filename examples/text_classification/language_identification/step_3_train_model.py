@@ -21,6 +21,7 @@ from allennlp.modules.seq2seq_encoders.pytorch_transformer_wrapper import Pytorc
 from allennlp.modules.seq2seq_encoders.pass_through_encoder import PassThroughEncoder
 from allennlp.modules.seq2vec_encoders.cnn_encoder import CnnEncoder
 from allennlp.modules.seq2vec_encoders.boe_encoder import BagOfEmbeddingsEncoder
+from allennlp.modules.seq2vec_encoders.cls_pooler import ClsPooler
 from allennlp.modules.token_embedders.embedding import Embedding
 from allennlp.training.checkpointer import Checkpointer
 from allennlp.training.gradient_descent_trainer import GradientDescentTrainer
@@ -113,19 +114,17 @@ def main():
                 ),
             }
         ),
-        # seq2seq_encoder=PytorchTransformer(
-        #     input_dim=64,
-        #     num_layers=4,
-        #     feedforward_hidden_dim=128,
-        #     num_attention_heads=4,
-        #     dropout_prob=0.5,
-        # ),
-        seq2seq_encoder=PassThroughEncoder(
-            input_dim=64
+        seq2seq_encoder=PytorchTransformer(
+            input_dim=64,
+            num_layers=4,
+            feedforward_hidden_dim=128,
+            num_attention_heads=4,
+            positional_encoding="sinusoidal",
+            positional_embedding_size=512,
+            dropout_prob=0.5,
         ),
-        seq2vec_encoder=BagOfEmbeddingsEncoder(
+        seq2vec_encoder=ClsPooler(
             embedding_dim=64,
-            averaged=True,
         )
     )
 
