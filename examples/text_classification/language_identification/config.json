@@ -32,12 +32,8 @@
             }
         },
         "seq2seq_encoder": {
-            "type": "pytorch_transformer",
-            "input_dim": 64,
-            "num_layers": 4,
-            "feedforward_hidden_dim": 128,
-            "num_attention_heads": 4,
-            "dropout_prob": 0.3
+            "type": "pass_through",
+            "input_dim": 64
         },
         "seq2vec_encoder": {
             "type": "bag_of_embeddings",
