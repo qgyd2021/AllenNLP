@@ -40,6 +40,11 @@ def get_args():
         default="valid.jsonl",
         type=str
     )
+    parser.add_argument(
+        "--evaluation_output_file",
+        default="evaluation.xlsx",
+        type=str
+    )
     args = parser.parse_args()
     return args
 
@@ -66,6 +71,7 @@ def main():
                     row = json.loads(row)
                     text = row["text"]
                     ground_true = row["label"]
+                    split = row["split"]
 
                     json_dict = {
                         "sentence": text
@@ -81,6 +87,7 @@ def main():
 
                     result.append({
                         "subset": subset,
+                        "split": split,
                         "text": text,
                         "ground_true": ground_true,
                         "predict": predict,
@@ -96,7 +103,7 @@ def main():
                     progress_bar.set_postfix({"accuracy": accuracy, "subset": subset})
 
     result = pd.DataFrame(result)
-    result.to_excel("evaluation.xlsx", index=False, encoding="utf_8_sig", engine="xlsxwriter")
+    result.to_excel(args.evaluation_output_file, index=False, encoding="utf_8_sig", engine="xlsxwriter")
 
     return
 

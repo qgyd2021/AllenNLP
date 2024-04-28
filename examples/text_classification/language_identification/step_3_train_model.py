@@ -114,8 +114,10 @@ def main():
                 ),
             }
         ),
-        seq2seq_encoder=PassThroughEncoder(
+        seq2seq_encoder=GatedCnnEncoder(
             input_dim=64,
+            layers=[[[3, 64]], [[3, 64], [3, 64]], [[3, 64]]],
+            dropout=0.1,
         ),
         seq2vec_encoder=CnnEncoder(
             embedding_dim=64,

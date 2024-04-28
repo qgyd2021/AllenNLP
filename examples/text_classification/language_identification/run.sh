@@ -69,6 +69,7 @@ mkdir -p "${trained_models_dir}"
 vocabulary_dir="${data_dir}/vocabulary"
 train_subset="${data_dir}/train.jsonl"
 valid_subset="${data_dir}/valid.jsonl"
+evaluation_output_file="${data_dir}/evaluation.xlsx"
 
 
 export PYTHONPATH="${work_dir}/../../.."
@@ -150,13 +151,14 @@ fi
 
 
 if [ ${stage} -le 5 ] && [ ${stop_stage} -ge 5 ]; then
-  $verbose && echo "stage 5: predict by archive"
+  $verbose && echo "stage 5: evaluation"
   cd "${work_dir}" || exit 1;
 
   python3 step_4_evaluation.py \
   --archive_file "${trained_models_dir}/${trained_model_name}" \
   --train_subset "${train_subset}" \
   --valid_subset "${valid_subset}" \
+  --evaluation_output_file "${evaluation_output_file}" \
 
 fi
 
