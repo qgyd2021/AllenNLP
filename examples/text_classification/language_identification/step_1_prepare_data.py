@@ -99,6 +99,10 @@ def main():
 
     lines = s.strip().split("\n")
 
+    language_map = {
+        "zh-cn": "zh"
+    }
+
     with open(args.train_subset, "w", encoding="utf-8") as ftrain, open(args.valid_subset, "w", encoding="utf-8") as fvalid:
         for line in lines:
             row = str(line).split("|")
@@ -130,6 +134,9 @@ def main():
                     text = sample["text"]
                     language = sample["language"]
                     data_source = sample["data_source"]
+
+                    if language in language_map.keys():
+                        language = language_map[language]
 
                     if count > total:
                         break
