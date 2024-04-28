@@ -114,17 +114,13 @@ def main():
                 ),
             }
         ),
-        seq2seq_encoder=PytorchTransformer(
+        seq2seq_encoder=PassThroughEncoder(
             input_dim=64,
-            num_layers=4,
-            feedforward_hidden_dim=128,
-            num_attention_heads=4,
-            positional_encoding="sinusoidal",
-            positional_embedding_size=512,
-            dropout_prob=0.5,
         ),
-        seq2vec_encoder=ClsPooler(
+        seq2vec_encoder=CnnEncoder(
             embedding_dim=64,
+            num_filters=32,
+            ngram_filter_sizes=[2, 3, 4, 5]
         )
     )
 

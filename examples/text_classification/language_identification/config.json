@@ -32,18 +32,14 @@
             }
         },
         "seq2seq_encoder": {
-            "type": "pytorch_transformer",
-            "input_dim": 64,
-            "num_layers": 4,
-            "feedforward_hidden_dim": 128,
-            "num_attention_heads": 4,
-            "positional_encoding": "sinusoidal",
-            "positional_embedding_size": 512,
-            "dropout_prob": 0.5
+            "type": "pass_through",
+            "input_dim": 64
         },
         "seq2vec_encoder": {
-            "type": "cls_pooler",
-            "embedding_dim": 64
+            "type": "cnn",
+            "embedding_dim": 64,
+            "num_filters": 32,
+            "ngram_filter_sizes": [2, 3, 4, 5]
         }
     },
     "data_loader": {
