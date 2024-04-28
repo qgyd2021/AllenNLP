@@ -5,6 +5,7 @@
 # sh run.sh --system_version windows --stage 4 --stop_stage 4
 # sh run.sh --system_version windows --stage 5 --stop_stage 5
 
+# nohup sh run.sh --system_version centos --stage 0 --stop_stage 0 --pretrained_model_name bert-base-multilingual-uncased > download_model.out &
 # nohup sh run.sh --system_version centos --stage 0 --stop_stage 3 &
 # nohup sh run.sh --system_version centos --stage 3 --stop_stage 3 &
 # sh run.sh --system_version centos --stage 4 --stop_stage 4 --trained_model_name language_identification
@@ -19,7 +20,7 @@ stage=0 # start from 0 if you need to start from data preparation
 stop_stage=5
 
 pretrained_model_supplier=google-bert
-pretrained_model_name=bert-base-multilingual-cased
+pretrained_model_name=bert-base-multilingual-uncased
 
 trained_model_name=language_identification
 
