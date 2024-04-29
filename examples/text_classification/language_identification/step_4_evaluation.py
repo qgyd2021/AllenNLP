@@ -102,7 +102,8 @@ def main():
                 progress_bar.set_postfix({"accuracy": accuracy, "subset": subset})
 
     result = pd.DataFrame(result)
-    result.to_excel(args.evaluation_output_file, index=False, encoding="utf_8_sig", engine="xlsxwriter")
+    # result.to_excel(args.evaluation_output_file, index=False, encoding="utf_8_sig", engine="xlsxwriter")
+    result.to_excel(args.evaluation_output_file, index=False)
 
     return
 
