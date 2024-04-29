@@ -11,7 +11,7 @@
         },
         "tokenizer": {
             "type": "pretrained_transformer",
-            "model_name": "/data/tianxing/PycharmProjects/AllenNLP/pretrained_models/huggingface/google-bert/bert-base-multilingual-cased"
+            "model_name": "/data/tianxing/PycharmProjects/AllenNLP/pretrained_models/huggingface/google-bert/bert-base-multilingual-uncased"
         },
         "max_sequence_length": 256
     },
@@ -26,7 +26,7 @@
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
-                    "num_embeddings": 119548,
+                    "num_embeddings": 105880,
                     "embedding_dim": 64
                 }
             }
