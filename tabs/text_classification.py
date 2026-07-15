@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import argparse
 import json
 import logging
 import time
@@ -21,6 +20,9 @@ from toolbox.jinja2.utils import jinja2_render_template
 logger = logging.getLogger(__name__)
 
 MODEL_DIR = project_path / "trained_models/modelscope"
+DEFAULT_TAB_SETTINGS_FILE = (
+    project_path / "settings/tab_settings/text_classification.json"
+)
 EMPTY_PROB_TABLE = [["", ""]]
 
 
@@ -161,22 +163,10 @@ def when_predict_button_click(
         return "", 0.0, EMPTY_PROB_TABLE, json.dumps(message, ensure_ascii=False, indent=2)
 
 
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--tab_settings_file",
-        default=(project_path / "settings/tab_settings/voc_post_domain_tab_settings.json").as_posix(),
-        type=str,
-    )
-    return parser.parse_args()
-
-
 def get_text_classification_tab():
     import gradio as gr
 
-    args = get_args()
-
-    with open(args.tab_settings_file, "r", encoding="utf-8") as f:
+    with open(DEFAULT_TAB_SETTINGS_FILE.as_posix(), "r", encoding="utf-8") as f:
         settings = json.load(f)
 
     examples = settings["examples"]
