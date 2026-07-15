@@ -2,6 +2,7 @@
 .git/
 .idea/
 
+data/
 dotenv/
 hub_datasets
 pretrained_models/
