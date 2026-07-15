@@ -165,7 +165,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--tab_settings_file",
-        default=(project_path / "data/tab_settings/voc_post_domain_tab_settings.json").as_posix(),
+        default=(project_path / "settings/tab_settings/voc_post_domain_tab_settings.json").as_posix(),
         type=str,
     )
     return parser.parse_args()

@@ -1,0 +1,28 @@
+{
+  "examples": [
+    [
+      "qgyd2021/voc_post_domain_textcnn",
+      "CPU",
+      "{\n  \"dataset_reader.tokenizer.model_name\": \"{{ archive_dir }}/tokenizer\"\n}",
+      "关于新款雷柏V3 PRO V2的一些使用感受"
+    ],
+    [
+      "qgyd2021/voc_post_domain_textcnn",
+      "CPU",
+      "{\n  \"dataset_reader.tokenizer.model_name\": \"{{ archive_dir }}/tokenizer\"\n}",
+      "这款键盘手感不错，适合办公打字，续航也很给力"
+    ],
+    [
+      "qgyd2021/voc_post_domain_textcnn",
+      "CPU",
+      "{\n  \"dataset_reader.tokenizer.model_name\": \"{{ archive_dir }}/tokenizer\"\n}",
+      "求推荐一款适合游戏的鼠标，预算300以内"
+    ]
+  ],
+  "init_params": {
+    "model_choices": [
+      "qgyd2021/voc_post_domain_textcnn"
+    ],
+    "default_overrides": "{\n  \"dataset_reader.tokenizer.model_name\": \"{{ archive_dir }}/tokenizer\"\n}"
+  }
+}
