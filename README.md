@@ -18,7 +18,7 @@ cd /home/honeytian/
 
 git clone https://github.com/qgyd2021/AllenNLP.git
 
-docker build -t allennlp:v20260715_1655 .
+docker build -t allennlp:v20260715_1752 .
 
 docker stop allennlp_7865 && docker rm allennlp_7865
 
@@ -28,7 +28,7 @@ docker run -d \
 --restart always \
 --gpus all \
 -e server_port=7865 \
-allennlp:v20260715_1655
+allennlp:v20260715_1740
 
 docker run -itd \
 --name allennlp_7865 \
@@ -36,7 +36,7 @@ docker run -itd \
 --restart always \
 --gpus all \
 -e server_port=7865 \
-allennlp:v20260715_1655 /bin/bash
+allennlp:v20260715_1740 /bin/bash
 
 
 http://192.168.34.115:7865/
