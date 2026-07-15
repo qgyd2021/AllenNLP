@@ -28,8 +28,17 @@ docker run -d \
 --restart always \
 --gpus all \
 -e server_port=7865 \
-allennlp_7865:v20260715_1655
+allennlp:v20260715_1655
 
-http://192.168.34.115:7864/
+docker run -itd \
+--name allennlp_7865 \
+--network host \
+--restart always \
+--gpus all \
+-e server_port=7865 \
+allennlp:v20260715_1655 /bin/bash
+
+
+http://192.168.34.115:7865/
 
 ```

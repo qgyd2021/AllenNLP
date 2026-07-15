@@ -3,7 +3,7 @@
 # sh install.sh --stage 1 --stop_stage 1 --system_version centos
 
 system_version="centos"
-python_version=3.8.10
+python_version=3.10.8
 
 verbose=true;
 stage=-1

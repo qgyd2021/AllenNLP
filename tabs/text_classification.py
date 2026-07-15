@@ -193,35 +193,35 @@ def get_text_classification_tab():
             with gr.Column(scale=1):
                 gr.Markdown("### 模型配置")
                 model_id = gr.Dropdown(
-                    label="ModelScope 模型",
+                    label="model_id",
                     choices=model_choices,
                     value=model_choices[0],
                     interactive=True,
                     allow_custom_value=True,
                 )
                 overrides = gr.Textbox(
-                    label="Archive Overrides (JSON)",
+                    label="overrides",
                     placeholder='{"dataset_reader.tokenizer.model_name": "{{ archive_dir }}/tokenizer"}',
                 )
                 gr.Markdown("### 推理设备")
                 device = gr.Radio(
-                    label="推理设备",
+                    label="device",
                     choices=device_choices,
                     value="CPU",
                     interactive=gpu_info["available"],
                 )
                 if gpu_info["available"]:
                     gpu_device_info = gr.Textbox(
-                        label="GPU 设备",
+                        label="gpu_device_info",
                         value=gpu_info.get("name", ""),
                         interactive=False,
                     )
 
                 gr.Markdown("### 文本输入")
                 text = gr.Textbox(
-                    label="帖子文本",
+                    label="text",
                     lines=8,
-                    placeholder="请输入帖子标题、描述或正文内容",
+                    placeholder="请输入待分类文本",
                 )
                 predict_button = gr.Button("开始分类", variant="primary")
 

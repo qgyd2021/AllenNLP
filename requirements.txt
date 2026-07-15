@@ -1,3 +1,9 @@
+# 版本兼容约束（需优先安装）
+# setuptools>=81 会触发 gradio 3.x 的 pkg_resources 弃用告警；>=82 则直接不可用
+setuptools>=65,<81
+# numpy>=2 与 spacy/thinc 二进制不兼容
+numpy==1.26.4
+
 # AllenNLP 训练与推理
 allennlp==2.10.1
 allennlp-models==2.10.1
@@ -18,9 +24,3 @@ gradio==3.20.1
 jinja2>=3.0,<4
 requests==2.34.2
 tzdata==2026.3
-
-# 版本兼容约束
-# setuptools>=82 会移除 pkg_resources，导致 gradio 3.x 无法启动
-setuptools>=65,<82
-# numpy>=2 与 spacy/thinc 二进制不兼容
-numpy==1.26.4
